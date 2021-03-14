@@ -7,6 +7,43 @@ from mysql.connector import Error
 import json
 import requests
 
+## THE CODE THAT GET THE USER INFO AND CONNECTES IT WITH DB ##
+def create_connection(host_name, user_name, user_password, db_name):
+    connection = None
+    try: 
+        connection= mysql.connector.connect(
+        host= host_name,
+        user=user_name,
+        passwd=user_password,
+        database=db_name
+        )
+        print("connection successful")
+    except Error as e:
+        print(f"the error '{e}' occured" )
+    return connection
+## THE CODE THAT RUNS THE CODE WRITTEN FROM PYTHON TO THE SQL ##
+def execute_query(connection, query):
+    mycursor=connection.cursor()
+    try:
+        mycursor.execute(query)
+        connection.commit()
+        print("Query ran successfuly")
+    except Error as e:
+        print(f"the error '{e}' occured")
+## THE CODE THAT GETS THE DATA FROM WORKBENCH INTO PYTHON ##
+def read_query(connection, query):
+    mycursor= connection.cursor()
+    result= None
+    try:
+        mycursor.execute(query)
+        result = mycursor.fetchall()
+        return result
+    except Error as e:
+        print(f"the error '{e}' occured")
+
+################################# USER INFO THAT connects to workbench and AWS ###########################################
+connection= create_connection("cis3368v1.cl3c9tgm8sn0.us-east-2.rds.amazonaws.com","admin","Daguy.jason.com","cis3368v1db")
+
 
 ## This is where the user inserts the city info ##
 city=input("Enter the city to find the weather: ") # state name input by user which goes into link below
