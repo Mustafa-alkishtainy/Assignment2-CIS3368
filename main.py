@@ -54,6 +54,7 @@ json_weather = weather.json() ## assigning the Json link to a variable
 print(json_weather) ## user decides if they want to print all of the Json info for that state in terminal or not
 
 print("\n")
+print("---City weather---")
 ## GETS CITY NAME TO PRINT
 city_name= json_weather["name"]
 print("The city is %s " %(city_name))
