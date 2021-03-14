@@ -53,17 +53,51 @@ weather=requests.get("http://api.openweathermap.org/data/2.5/weather?q=%s&APPID=
 json_weather = weather.json() ## assigning the Json link to a variable 
 print(json_weather) ## user decides if they want to print all of the Json info for that state in terminal or not
 
+print("\n")
 ## GETS CITY NAME TO PRINT
 city_name= json_weather["name"]
-print("the city is %s " %(city_name))
+print("The city is %s " %(city_name))
 ## GOES INTO MAIN IN THE API AND GET THE TEMP, FEELS LIKE, AND HUMIDITY
 city_main= json_weather["main"]
 temp= city_main["temp"]
-print(temp)
+print("Temp: "+ str(temp))
 feels_like = city_main["feels_like"]
-print(feels_like)
+print("Feels Like: "+ str(feels_like))
 humidity= city_main["humidity"]
-print(humidity)
-
-
-
+print("Humidity: "+ str(humidity))
+print("\n")
+## MENU FOR USER
+print("Please select an option: \n'a' Add to database \n'd' Display all data from database \n'r' Display in order by city name")
+## INPUT BY USER
+choice= input("select an option: ")
+if choice =="a":
+    query= "INSERT INTO results (cityName, temp, feels_like, humidity) VALUES ('%s', %s, %s,%s)" %(city_name, temp, feels_like,humidity)
+    execute_query(connection, query)
+## PRINTS ALL DATA
+elif choice == "d":
+    selectAll= "SELECT * FROM results"
+    query= read_query(connection, selectAll)
+    print("ID" + "   CityName"+ "      Temp"+"      FeelsLike"+ "   Humidity")
+    print("----------------------------------------------------")
+    for i in query:
+            id= i[0]
+            CityName = i[1]
+            tempr= i[2]
+            feelsLike=i[3]
+            Humidity= i[4]
+            print ("{} {:>10} {:>10} {:>10} {:>10}".format(id,CityName,tempr,feelsLike,Humidity))
+## PRINTS ALL DATA BY CITY NAME 
+elif choice =="r":
+    selectAll= "SELECT * FROM results ORDER BY cityName"
+    query= read_query(connection, selectAll)
+    print("ID" + "   CityName"+ "      Temp"+"      FeelsLike"+ "   Humidity")
+    print("----------------------------------------------------")
+    for i in query:
+            id= i[0]
+            CityName = i[1]
+            tempr= i[2]
+            feelsLike=i[3]
+            Humidity= i[4]
+            print ("{} {:>10} {:>10} {:>10} {:>10}".format(id,CityName,tempr,feelsLike,Humidity))
+else:
+    print("Invalid input")
