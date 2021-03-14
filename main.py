@@ -52,3 +52,18 @@ print("\n")
 weather=requests.get("http://api.openweathermap.org/data/2.5/weather?q=%s&APPID=eddbc569689018a78d26d07356e707c2" %city) # gets the state info & date from the user (line 40-41) and then goes into the API and get that specified state
 json_weather = weather.json() ## assigning the Json link to a variable 
 print(json_weather) ## user decides if they want to print all of the Json info for that state in terminal or not
+
+## GETS CITY NAME TO PRINT
+city_name= json_weather["name"]
+print("the city is %s " %(city_name))
+## GOES INTO MAIN IN THE API AND GET THE TEMP, FEELS LIKE, AND HUMIDITY
+city_main= json_weather["main"]
+temp= city_main["temp"]
+print(temp)
+feels_like = city_main["feels_like"]
+print(feels_like)
+humidity= city_main["humidity"]
+print(humidity)
+
+
+
